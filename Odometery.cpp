@@ -3,7 +3,6 @@
 
 Odometery::Odometery() { }
 
-uint8_t Odometery::GetID() { return id_; }
 double Odometery::GetX() {return global_x_; }
 double Odometery::GetY() {return global_y_; }
 
