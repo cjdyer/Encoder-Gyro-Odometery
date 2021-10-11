@@ -10,7 +10,8 @@ public:
     uint8_t GetID();
     double GetX();
     double GetY();
-    void CalculatePosition(const int32_t _left_encoder,const int32_t _right_encoder, const int32_t _tracking_encoder, const float _gyroscope);
+    template <typename EncoderUnits>
+    void CalculatePosition(const EncoderUnits _left_encoder,const EncoderUnits _right_encoder, const EncoderUnits _tracking_encoder, const float _gyroscope);
 private:
     const uint8_t id_;
 

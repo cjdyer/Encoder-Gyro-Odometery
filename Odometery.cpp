@@ -10,9 +10,10 @@ uint8_t Odometery::GetID() { return id_; }
 double Odometery::GetX() {return global_x_; }
 double Odometery::GetY() {return global_y_; }
 
-void Odometery::CalculatePosition(const int32_t _left_encoder,const int32_t _right_encoder, const int32_t _tracking_encoder, const float _gyroscope)
+template <typename EncoderUnits>
+void Odometery::CalculatePosition(const EncoderUnits _left_encoder,const EncoderUnits _right_encoder, const EncoderUnits _tracking_encoder, const float _gyroscope)
 {
-    static int32_t 
+    static EncoderUnits 
     local_vertical_position, local_horizontal_position, 
     change_x, change_y, 
     prev_local_horizontal_position, prev_local_vertical_position;
@@ -28,7 +29,7 @@ void Odometery::CalculatePosition(const int32_t _left_encoder,const int32_t _rig
     prev_local_vertical_position = local_vertical_position;
 
     gyroscope_radians = _gyroscope * degrees_to_radians_;
-    global_change_x = change_y * sin(gyroscope_radians) - change_x * cos(gyroscope_radians) ;
+    global_change_x = change_y * sin(gyroscope_radians) - change_x * cos(gyroscope_radians);
 	global_change_y = change_x * sin(gyroscope_radians) - change_y * cos(gyroscope_radians);
 
     global_x_ += global_change_x;
