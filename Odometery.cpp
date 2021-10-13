@@ -35,3 +35,17 @@ void Odometery::CalculatePosition(const EncoderUnits _left_encoder,const Encoder
     global_x_ += global_change_x; // Add position change to current position
     global_y_ += global_change_y;
 }
+
+template <typename EncoderUnits>
+void Odometery::CalculatePosition(const EncoderUnits _left_encoder,const EncoderUnits _right_encoder, const float _gyroscope)
+{
+    static EncoderUnits left_change_x, left_change_y, right_change_x, right_change_y;
+
+    left_change_x = _left_encoder * sin(_gyroscope);
+    left_change_y = _left_encoder * cos(_gyroscope);
+    right_change_x = _right_encoder * sin(_gyroscope);
+    right_change_y = _right_encoder * cos(_gyroscope);
+
+    global_x_ += (left_change_x + right_change_x) / 2;
+    global_y_ += (left_change_y + right_change_y) / 2;
+}

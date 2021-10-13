@@ -1,8 +1,6 @@
 #ifndef ODOMETERY_H
 #define ODOMETERY_H
 
-#include <stdint.h>
-
 /**
  * Implementation of odometery in C++
  *
@@ -52,6 +50,17 @@ public:
      */
     template <typename EncoderUnits>
     void CalculatePosition(const EncoderUnits _left_encoder,const EncoderUnits _right_encoder, const EncoderUnits _tracking_encoder, const float _gyroscope);
+
+    /**
+     * @brief Calculate the position of the robot without tracking wheel (would not recommend)
+     * 
+     * @tparam The units used when interfacing with the encoders, likely int32_t 
+     * @param _left_encoder The left encoder value
+     * @param _right_encoder The right encoder value
+     * @param _gyroscope The gyroscope value, assumed 1 deg = 1.0
+     */
+    template <typename EncoderUnits>
+    void CalculatePosition(const EncoderUnits _left_encoder,const EncoderUnits _right_encoder, const float _gyroscope);
 
 private:
 
