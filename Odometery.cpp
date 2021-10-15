@@ -1,7 +1,8 @@
 #include <cmath>
 #include "Odometery.h"
 
-Odometery::Odometery() { }
+Odometery::Odometery(cosnt flaot _distance_between_wheels) : 
+distance_between_wheels_(_distance_between_wheels) { }
 
 double Odometery::GetX() {return global_x_; }
 double Odometery::GetY() {return global_y_; }
@@ -37,15 +38,22 @@ void Odometery::CalculatePosition(const EncoderUnits _left_encoder,const Encoder
 }
 
 template <typename EncoderUnits>
-void Odometery::CalculatePosition(const EncoderUnits _left_encoder,const EncoderUnits _right_encoder, const float _gyroscope)
+void Odometery::CalculatePosition(const EncoderUnits _left_encoder,const EncoderUnits _right_encoder, const float _gyroscope, const float _dt)
 {
-    static EncoderUnits left_change_x, left_change_y, right_change_x, right_change_y;
+    static EncoderUnits change_x, change_y, previous_left_encoder = 0, previous_right_encoder = 0;
+    static float linear_velocity, linear_velocity_x, linear_velocity_y;
 
-    left_change_x = _left_encoder * sin(_gyroscope);
-    left_change_y = _left_encoder * cos(_gyroscope);
-    right_change_x = _right_encoder * sin(_gyroscope);
-    right_change_y = _right_encoder * cos(_gyroscope);
+    change_x = _left_encoder - previous_left_encoder;
+    change_y = _right_encoder - previous_right_encoder;
 
-    global_x_ += (left_change_x + right_change_x) / 2;
-    global_y_ += (left_change_y + right_change_y) / 2;
+    previous_left_encoder = _left_encoder;
+    previous_right_encoder = _right_encoder;
+
+    linear_velocity = (change_x + change_y) / 2;
+
+    linear_velocity_x = linear_velocity * sin(_gyroscope);
+    linear_velocity_y = linear_velocity * cos(_gyroscope);
+
+    global_x += linear_velocity_x * _dt;
+    global_y += linear_velocity_y * _dt;
 }

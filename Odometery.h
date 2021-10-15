@@ -23,7 +23,7 @@ public:
     /**
      * @brief Creates an odometery object
      */
-    Odometery();
+    Odometery(cosnt flaot _distance_between_wheels);
 
     /**
      * @brief Gets the estimated X position of the robot
@@ -66,6 +66,7 @@ private:
 
     double global_x_, global_y_; // The global X/Y position
 
+    const float distance_between_wheels_;
     static constexpr double degrees_to_radians_ = 3.14159265358979323846 / 180; // pi / 180
 };
 
